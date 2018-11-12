@@ -80,8 +80,10 @@ class DetailController: UIViewController,
                     image_in: data)
             }
             
-            pl?.location = ManagerLocation.getLocation()
-            
+            //pl?.location = ManagerLocation.getLocation()
+            let instanceManagerLocation = ManagerLocation.shared()
+            //pl?.location = ManagerLocation.shared().getLocation()
+            pl?.location = instanceManagerLocation.getLocation()
             manager.append(pl!)
         }
         else // UPDATE
@@ -136,6 +138,7 @@ class DetailController: UIViewController,
     //
     override func viewDidLoad()
     {
+        print("ManagerLocation viewDidLoad()")
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
@@ -153,6 +156,10 @@ class DetailController: UIViewController,
     override func viewDidDisappear(_ animated: Bool)
     {
         super.viewDidDisappear(true)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print("ManagerLocation viewDidAppear(...)")
     }
     
     override func didReceiveMemoryWarning() {

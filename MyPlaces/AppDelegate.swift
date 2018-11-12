@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
 
-    // let manager = ManagerPlaces.getInstance()
+    // let manager = ManagerPlaces.shared()
     
     
     func application(

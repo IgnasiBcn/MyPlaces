@@ -154,6 +154,8 @@ class ManagerPlaces: Codable
     //  *******************************************************************
     //  MARK: - SINGLETON Design Pattern
     //
+    //  PLA1 - 3.4
+    //
     //  Unique instance for all App
     //
     private static var sharedManagerPlaces: ManagerPlaces = {
@@ -162,7 +164,8 @@ class ManagerPlaces: Codable
         
         singletonManager = load()
         
-        if singletonManager == nil{
+        if singletonManager == nil
+        {
             singletonManager = ManagerPlaces()
         }
         
