@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE6E6564219987BD00DAD816 /* MKMyPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6E6563219987BD00DAD816 /* MKMyPointAnnotation.swift */; };
 		CE79A6202179BA5A00C531D9 /* ManagerLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79A61E2179BA5900C531D9 /* ManagerLocation.swift */; };
 		CE79A6212179BA5A00C531D9 /* FileSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE79A61F2179BA5A00C531D9 /* FileSystem.swift */; };
 		CEAA754921639C3B0039D783 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA754821639C3B0039D783 /* AppDelegate.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE6E6563219987BD00DAD816 /* MKMyPointAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKMyPointAnnotation.swift; sourceTree = "<group>"; };
 		CE79A61E2179BA5900C531D9 /* ManagerLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerLocation.swift; sourceTree = "<group>"; };
 		CE79A61F2179BA5A00C531D9 /* FileSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileSystem.swift; sourceTree = "<group>"; };
 		CEAA754521639C3B0039D783 /* MyPlaces.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyPlaces.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +87,7 @@
 				CEAA755121639C5C0039D783 /* Assets.xcassets */,
 				CEAA755321639C5C0039D783 /* LaunchScreen.storyboard */,
 				CEAA755621639C5C0039D783 /* Info.plist */,
+				CE6E6563219987BD00DAD816 /* MKMyPointAnnotation.swift */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
@@ -177,6 +180,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEAA75642163EFBF0039D783 /* PlaceTourist.swift in Sources */,
+				CE6E6564219987BD00DAD816 /* MKMyPointAnnotation.swift in Sources */,
 				CE79A6212179BA5A00C531D9 /* FileSystem.swift in Sources */,
 				CEAA755D2163D7970039D783 /* DetailController.swift in Sources */,
 				CEAA754D21639C3C0039D783 /* SecondViewController.swift in Sources */,

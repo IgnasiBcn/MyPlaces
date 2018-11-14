@@ -53,7 +53,7 @@ class FirstViewController:
         _ tableView: UITableView,
         numberOfRowsInSection section: Int) -> Int
     {
-        return ManagerPlaces.getInstance().getCount()
+        return ManagerPlaces.shared().getCount()
     }
     
     
@@ -81,7 +81,7 @@ class FirstViewController:
                     withIdentifier: "DetailController") as! DetailController
         
         
-        let place: Place = ManagerPlaces.getInstance().getItemAt(position: indexPath.row)
+        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row)
         dc.place = place
         present(dc, animated: true, completion: nil)
     }
@@ -119,7 +119,7 @@ class FirstViewController:
         label.numberOfLines = 4
         
         let index = indexPath.row
-        let strName = ManagerPlaces.getInstance().getItemAt(position: index).name
+        let strName = ManagerPlaces.shared().getItemAt(position: index).name
         label.text = strName
         label.sizeToFit()
         cell.contentView.addSubview(label)
@@ -127,9 +127,9 @@ class FirstViewController:
 //        let imageIcon: UIImageView = UIImageView(image: UIImage(named:"sun.png"))
 //        imageIcon.frame = CGRect(x:10, y:50, width:50, height:50)
 //        cell.contentView.addSubview(imageIcon)
-        let place: Place = ManagerPlaces.getInstance().getItemAt(position: indexPath.row)
+        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row)
         let imageIcon: UIImageView = UIImageView(
-            image: UIImage(contentsOfFile: ManagerPlaces.getInstance().getPathImage(p: place)))
+            image: UIImage(contentsOfFile: ManagerPlaces.shared().getPathImage(p: place)))
         imageIcon.frame = CGRect(x:10, y:30, width: 50, height: 50)
         cell.contentView.addSubview(imageIcon)
 
@@ -143,10 +143,11 @@ class FirstViewController:
     //
     //  PLA2 - 5.6
     //
-    // An instance of FirstViewController subscribes itself to the list of observers
-    func addMyselfAsObserver()
-    {
-        ManagerPlaces.getInstance().addObserver(object: self)
+    /// An instance of FirstViewController subscribes itself to the list of observers
+    //
+    func addMyselfAsObserver() {
+        
+        ManagerPlaces.shared().addObserver(object: self)
     }
     
     
@@ -157,8 +158,9 @@ class FirstViewController:
     /// Because an instance of the FirstViewController class is subscribed,
     /// when the publisher discloses a change the subscriber acts according to his responsibilities.
     /// In this case FirstViewcontroller is responsible for reloading the view
-    func onPlacesChange()
-    {
+    //
+    func onPlacesChange() {
+        
         let view: UITableView = (self.view as? UITableView)!
         view.reloadData()
     }

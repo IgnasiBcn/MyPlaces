@@ -48,7 +48,7 @@ class DetailController: UIViewController,
     /// depending on the selection in the UIPickerView
     @IBAction func newOrUpdatePressed(_ sender: UIButton)
     {
-        let manager = ManagerPlaces.getInstance()
+        let manager = ManagerPlaces.shared()
         
         let name = textName.text!
         let description = textDescription.text!
@@ -117,10 +117,10 @@ class DetailController: UIViewController,
     @IBAction func removePressed(_ sender: Any)
     {
         if place != nil {   // UPDATE
-            ManagerPlaces.getInstance().remove(place!)
+            ManagerPlaces.shared().remove(place!)
         }
         
-        ManagerPlaces.getInstance().updateObservers()
+        ManagerPlaces.shared().updateObservers()
         
         dismiss(animated: true, completion: nil)
     }
@@ -179,7 +179,7 @@ class DetailController: UIViewController,
         
         if place != nil  // UPDATE
         {
-            let manager = ManagerPlaces.getInstance()
+            let manager = ManagerPlaces.shared()
             
             textName.text = place!.name
             textDescription.text = place!.description
