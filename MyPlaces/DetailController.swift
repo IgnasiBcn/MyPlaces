@@ -12,8 +12,8 @@ class DetailController: UIViewController,
                         UIPickerViewDelegate, UIPickerViewDataSource,
                         UIImagePickerControllerDelegate,
                         UINavigationControllerDelegate,
-                        UITextViewDelegate, UITextFieldDelegate
-{
+                        UITextViewDelegate, UITextFieldDelegate {
+    
     //  *******************************************************************
     //  MARK: - Instance Properties
     //
@@ -46,16 +46,15 @@ class DetailController: UIViewController,
     //
     /// If the operation is new, we create an object of type Place or PlaceTourist
     /// depending on the selection in the UIPickerView
-    @IBAction func newOrUpdatePressed(_ sender: UIButton)
-    {
+    //
+    @IBAction func newOrUpdatePressed(_ sender: UIButton) {
+        
         let manager = ManagerPlaces.shared()
         
         let name = textName.text!
         let description = textDescription.text!
         
-        
-        if place == nil // NEW
-        {
+        if place == nil { // NEW
             let indexPlacesTypes: Int = viewPicker.selectedRow(inComponent: 0)
             
             var data: Data? = nil
@@ -64,20 +63,18 @@ class DetailController: UIViewController,
             }
             
             var pl: Place? = nil
-            if indexPlacesTypes == 0
-            {
+            if indexPlacesTypes == 0 {
                 pl = Place(
                     name: name,
                     description: description,
-                    image_in: data)
+                    image: data)
             }
-            else if indexPlacesTypes == 1
-            {
+            else if indexPlacesTypes == 1 {
                 pl = PlaceTourist(
                     name: name,
                     description: description,
                     discount_tourist: "10€",
-                    image_in: data)
+                    image: data)
             }
             
             //pl?.location = ManagerLocation.getLocation()
@@ -86,8 +83,7 @@ class DetailController: UIViewController,
             pl?.location = instanceManagerLocation.getLocation()
             manager.append(pl!)
         }
-        else // UPDATE
-        {
+        else { // UPDATE
             place!.name = name
             place!.description = description
         }
@@ -100,8 +96,8 @@ class DetailController: UIViewController,
     }
     
     
-    @IBAction func selectImagePressed(_ sender: Any)
-    {
+    @IBAction func selectImagePressed(_ sender: Any) {
+        
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self     // Protocol UIImagePickerControllerDelegate
         imagePicker.sourceType = .photoLibrary
@@ -114,8 +110,8 @@ class DetailController: UIViewController,
     
     //  PLA2 - 4.2
     //
-    @IBAction func removePressed(_ sender: Any)
-    {
+    @IBAction func removePressed(_ sender: Any) {
+        
         if place != nil {   // UPDATE
             ManagerPlaces.shared().remove(place!)
         }
@@ -126,8 +122,8 @@ class DetailController: UIViewController,
     }
     
     
-    @IBAction func cancelPressed(_ sender: Any)
-    {
+    @IBAction func cancelPressed(_ sender: Any) {
+        
         dismiss(animated: true, completion: nil)
     }
     
@@ -136,8 +132,7 @@ class DetailController: UIViewController,
     //  *******************************************************************
     //  MARK: - Overrided methods
     //
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         print("ManagerLocation viewDidLoad()")
         super.viewDidLoad()
         
@@ -172,13 +167,11 @@ class DetailController: UIViewController,
     //  *******************************************************************
     //  MARK: - LOAD VISUAL COMPONENTS in the view
     //
-    private func loadVisualComponents()
-    {
+    private func loadVisualComponents() {
         textName.text = ""
         textDescription.text = ""
         
-        if place != nil  // UPDATE
-        {
+        if place != nil { // UPDATE
             let manager = ManagerPlaces.shared()
             
             textName.text = place!.name
@@ -249,8 +242,9 @@ class DetailController: UIViewController,
     //  available to Objective-C as well as Swift code.
     //
     /// When we show the keyboard we reposition the UIScrollView
-    @objc func showKeyboard(notification: Notification)
-    {
+    //
+    @objc func showKeyboard(notification: Notification) {
+        
         if (activeField != nil)
         {
             let userInfo = notification.userInfo

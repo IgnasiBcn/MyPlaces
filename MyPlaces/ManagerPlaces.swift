@@ -78,8 +78,8 @@ class ManagerPlaces: Codable {
                 }
                 
                 FileSystem.write(data: String(data: data, encoding: .utf8)!)
-                //tbd
-                let data_str = FileSystem.read()
+                
+                // let data_str = FileSystem.read()
             }
         }
         catch {
@@ -158,8 +158,7 @@ class ManagerPlaces: Codable {
         
         singletonManager = load()
         
-        if singletonManager == nil
-        {
+        if singletonManager == nil {
             singletonManager = ManagerPlaces()
         }
         
@@ -170,7 +169,9 @@ class ManagerPlaces: Codable {
     class func shared() -> ManagerPlaces {
         
         return sharedManagerPlaces
+        
     }
+    
     
     
     //  *******************************************************************
@@ -180,18 +181,23 @@ class ManagerPlaces: Codable {
     //
     /// Observers subscribe themselfs to the list of observers
     /// Observers: FirstViewController and SecondViewController
+    //
     public func addObserver(object: ManagerPlacesObserver) {
         
         managerPlacesObservers.append(object)
+        
     }
     
     
     public func updateObservers() {
         
         for item in managerPlacesObservers {
+            print("____ ManagerPlaces updateObservers() - \(item)")
             item.onPlacesChange()
         }
+        
     }
+    
 }
 
 
@@ -200,7 +206,9 @@ class ManagerPlaces: Codable {
 //
 /// All subscribers will have to implement the onPlacesChange() method of this protocol.
 /// In this App the subscribers objects are: FirstViewController and SecondViewController
+//
 protocol ManagerPlacesObserver {
     
     func onPlacesChange()
+    
 }

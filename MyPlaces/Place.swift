@@ -15,8 +15,8 @@ import MapKit
 //  When you use Codable as a type or a generic constraint, it matches
 //  any type that conforms to both protocols.
 //
-class Place: Codable
-{
+class Place: Codable {
+    
     var id = ""
     var type:PlacesTypes = .GenericPlace
     var name = ""
@@ -24,57 +24,65 @@ class Place: Codable
     var location: CLLocationCoordinate2D!
     var image: Data? = nil
     
-    enum PlacesTypes: Int, Codable
-    {
+    
+    enum PlacesTypes: Int, Codable {
+        
         case GenericPlace
         case TouristicPlace
+        
     }
     
     
     //  Protocol CodingKey:
     //  A type that can be used as a key for encoding and decoding.
     //
-    enum CodingKeys: String, CodingKey
-    {
+    enum CodingKeys: String, CodingKey {
+        
         case id
         case description
         case name
         case type
         case latitude
         case longitude
+        
     }
     
     
-    init()
-    {
+    init() {
+        
         self.id = UUID().uuidString
+        
     }
     
     
-    init(name: String, description: String, image_in: Data?)
-    {
-        self.id = UUID().uuidString
+    init(name: String, description: String, image: Data?) {
+        
+        id = UUID().uuidString
         self.name = name
         self.description = description
-        self.image = image_in
+        self.image = image
+        
     }
     
     
-    init(type:PlacesTypes, name: String, description: String, image_in: Data?)
-    {
-        self.id = UUID().uuidString
+    init(type: PlacesTypes, name: String, description: String, image: Data?) {
+        
+        id = UUID().uuidString
         self.type = type
         self.name = name
         self.description = description
-        self.image = image_in
+        self.image = image
+        
     }
     
     
-    required convenience init(from decoder: Decoder) throws
-    {
+    required convenience init(from decoder: Decoder) throws {
+        
         self.init()
         try decode(from: decoder)
+        
     }
+    
     
     
     //  ********************************************************************

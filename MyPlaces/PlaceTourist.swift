@@ -6,40 +6,49 @@
 //  Copyright © 2018 Ignasi Pérez. All rights reserved.
 //
 
+
 import Foundation
 
-class PlaceTourist: Place
-{
+class PlaceTourist: Place {
+    
     var discount_tourist = ""
     
     //  Protocol CodingKey:
     //  A type that can be used as a key for encoding and decoding.
     //
-    enum CodingKeysTourist: String, CodingKey
-    {
+    enum CodingKeysTourist: String, CodingKey {
+        
         case discount_tourist
+        
     }
+    
     
     override init() {
+        
         super.init()
         type = .TouristicPlace
+        
     }
     
     
-    required convenience init(from decoder: Decoder) throws
-    {
+    required convenience init(from decoder: Decoder) throws {
+        
         self.init()
+        
         try decode(from: decoder)
+        
     }
     
     
-    init(name: String, description: String, discount_tourist: String, image_in: Data?)
-    {
+    init(name: String, description: String, discount_tourist: String, image: Data?) {
+        
         super.init(type:.TouristicPlace,
                    name: name,
                    description: description,
-                   image_in: image_in)
+                   image: image)
+        
         self.discount_tourist = discount_tourist
+        
     }
     
     

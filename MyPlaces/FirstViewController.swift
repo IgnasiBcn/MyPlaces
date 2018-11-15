@@ -8,10 +8,10 @@
 
 import UIKit
 
-class FirstViewController:
+class FirstViewController :
     UITableViewController,
-    ManagerPlacesObserver
-{
+    ManagerPlacesObserver {
+    
     @IBOutlet weak var btnAdd: UIBarButtonItem!
     
     //let m_provider: ManagerPlaces = ManagerPlaces.shared()
@@ -20,8 +20,7 @@ class FirstViewController:
     //  *******************************************************************
     //  MARK: - Overrided methods
     //
-    override func viewDidLoad()
-    {
+    override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -30,6 +29,8 @@ class FirstViewController:
         view.dataSource = self
         
         addMyselfAsObserver()
+        
+        
     }
 
     
@@ -135,8 +136,9 @@ class FirstViewController:
 
         return cell
     }
+  
     
-    
+
     //  *******************************************************************
     //  MARK: - OBSERVER Design Pattern
     //
@@ -147,6 +149,7 @@ class FirstViewController:
     //
     func addMyselfAsObserver() {
         
+        print("____ FirstViewController addMyselfAsObserver()")
         ManagerPlaces.shared().addObserver(object: self)
     }
     
@@ -161,6 +164,7 @@ class FirstViewController:
     //
     func onPlacesChange() {
         
+        print("____ FirstViewController onPlacesChange()")
         let view: UITableView = (self.view as? UITableView)!
         view.reloadData()
     }

@@ -22,8 +22,10 @@ class SecondViewController: UIViewController,
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        print("SecondViewController viewDidLoad()")
+        print("____ SecondViewController viewDidLoad()")
         addMyselfAsObserver()
+        
+        addMarkers()
     }
 
     
@@ -34,39 +36,38 @@ class SecondViewController: UIViewController,
     }
     
     
-    func removeMakers() {
+    
+    //  *******************************************************************
+    //  MARK: - MANAGE MARKERS ON THE MAP
+    //
+    func addMarkers() {
+       
+        print("____ SecondViewController addMakers()")
+        let managerPlaces = ManagerPlaces.shared()
+        
+        for i in 0..<managerPlaces.getCount() {
+            let place = managerPlaces.getItemAt(position: i)
+            
+            let mkMyPointAnnotation = MKMyPointAnnotaion(
+                coordinate: CLLocationCoordinate2D(
+                    latitude: place.location.latitude,
+                    longitude: place.location.longitude),
+                title: place.name,
+                place_id: place.id)
+            
+            mkMapView.addAnnotation(mkMyPointAnnotation)
+        }
+        
+    }
+    
+    
+    func removeMarkers() {
         
         print("SecondViewController removeMakers()")
         let userLocationAnnotations =
             mkMapView.annotations.filter { !($0 is MKUserLocation) }
         
         mkMapView.removeAnnotations(userLocationAnnotations)
-    }
-    
-    
-    
-    func addMakers() {
-       
-        print("SecondViewController addMakers()")
-        let managerPlaces = ManagerPlaces.shared()
-        
-        for i in 0..<managerPlaces.getCount() {
-            let place = managerPlaces.getItemAt(position: i)
-            
-            let title = place.name
-            let id = place.id
-            let latitude = place.location.latitude
-            let longitude = place.location.longitude
-            
-            let mkMyPointAnnotation = MKMyPointAnnotaion(
-                coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
-                title: title,
-                place_id: id)
-            
-            mkMapView.addAnnotation(mkMyPointAnnotation)
-        }
-        
-        
     }
     
     
@@ -128,7 +129,7 @@ class SecondViewController: UIViewController,
     //
     func addMyselfAsObserver() {
         
-        print("SecondViewController addMyselfAsObserver()")
+        print("____ SecondViewController addMyselfAsObserver()")
         ManagerPlaces.shared().addObserver(object: self)
     }
     
@@ -145,7 +146,7 @@ class SecondViewController: UIViewController,
         
 //        let view: UITableView = (self.view as? UITableView)!
 //        view.reloadData()
-        print("SecondViewController onPlacesChange()")
+        print("____ SecondViewController onPlacesChange()")
     }
     
 }
