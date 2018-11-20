@@ -150,6 +150,22 @@ class SecondViewController: UIViewController,
         
         
         // Mostrar el DetailControler de ese Place
+        let dc =
+            UIStoryboard(name: "Main",bundle:nil).instantiateViewController(
+                withIdentifier: "DetailController") as! DetailController
+        
+        let place: Place = ManagerPlaces.shared().getItemById(id: annotation.place_id)
+        dc.place = place
+        present(dc, animated: true, completion: nil)
+        
+    }
+    
+    //  Protocol MKMapViewDelegate
+    /// Tells the delegate that one or more annotation views were added to the map.
+    //
+    func mapView(_: MKMapView, didAdd: [MKAnnotationView]) {
+        
+        print("&&&& SecondViewController mapView(_: MKMapView, didAdd: [MKAnnotationView])")
         
     }
     
@@ -181,10 +197,9 @@ class SecondViewController: UIViewController,
     //
     func onPlacesChange() {
         
-//        let view: UITableView = (self.view as? UITableView)!
-//        view.reloadData()
         print("OOOO SecondViewController onPlacesChange() BEFORE addMarkers()")
         
+        removeMarkers()
         addMarkers()
         
     }

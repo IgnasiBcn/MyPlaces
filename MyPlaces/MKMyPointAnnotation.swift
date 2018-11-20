@@ -19,7 +19,8 @@ class MKMyPointAnnotaion : NSObject, MKAnnotation {
     var place_id: String = ""
     
     
-    init(coordinate: CLLocationCoordinate2D, title: String, subtitle: String, place_id: String) {
+    init(coordinate: CLLocationCoordinate2D, title: String,
+         subtitle: String, place_id: String) {
         
         print("____ MKMyPointAnnotaion - init(coordinate, title, subtitle, place_id)")
         print("- title: \(title), place_id: \(place_id)")

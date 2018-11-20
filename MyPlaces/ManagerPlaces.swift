@@ -128,6 +128,7 @@ class ManagerPlaces: Codable {
         
         let placeFiltered = places.filter {$0.id == id}
         return placeFiltered[0]
+        
     }
     
 

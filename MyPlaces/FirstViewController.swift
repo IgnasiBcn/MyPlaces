@@ -76,8 +76,8 @@ class FirstViewController :
     ///  Tells the delegate that the specified row is now selected.
     override func tableView(
         _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath)
-    {
+        didSelectRowAt indexPath: IndexPath) {
+        
         // Instantiates and returns the view controller with the specified identifier.
         let dc: DetailController =
             UIStoryboard(name: "Main",bundle:nil).instantiateViewController(
@@ -87,6 +87,7 @@ class FirstViewController :
         let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row)
         dc.place = place
         present(dc, animated: true, completion: nil)
+        
     }
     
     
