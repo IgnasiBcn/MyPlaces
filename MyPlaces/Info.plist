@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>The application uses this information to show you your location</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Always mode is recommended for this app for improved location tracking</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -39,14 +43,14 @@
 	<array>
 		<string>location</string>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.travel</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
-	<array>
-		<string>armv7</string>
-	</array>
+	<array/>
 	<key>UIStatusBarTintParameters</key>
 	<dict>
 		<key>UINavigationBar</key>
@@ -61,9 +65,5 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Access Location When In Use</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Access Location always and When In Use</string>
 </dict>
 </plist>

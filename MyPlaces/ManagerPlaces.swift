@@ -192,7 +192,7 @@ class ManagerPlaces: Codable {
     public func updateObservers() {
         
         for item in managerPlacesObservers {
-            print("____ ManagerPlaces updateObservers() - \(item)")
+            print("ManagerPlaces updateObservers() - \(item)")
             item.onPlacesChange()
         }
         

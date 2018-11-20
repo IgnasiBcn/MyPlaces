@@ -14,6 +14,8 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     
     var clLocationManager: CLLocationManager!
     
+    
+    
 //    static var pos: Int = 0
 //    static var locations:[CLLocationCoordinate2D] = [
 //        CLLocationCoordinate2D(latitude: 41.387834, longitude: 2.170130),
@@ -35,33 +37,57 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     
     
     public func getLocation() -> CLLocationCoordinate2D {
-        print("ManagerLocation getLocation()")
-        let cLLocationCoordinate2D = (clLocationManager!.location?.coordinate)!
-        print("ManagerLocation getLocation() cLLocationCoordinate2D: \(cLLocationCoordinate2D)")
+        
+        let clLocationCoordinate2D = (clLocationManager!.location?.coordinate)!
+        print("ManagerLocation getLocation() cLLocationCoordinate2D: \(clLocationCoordinate2D)")
         // return (deviceLocationManager!.location?.coordinate)!
-        return cLLocationCoordinate2D
+        return clLocationCoordinate2D
+        
     }
     
     
-    func startLocation()
-    {
+    func startLocation() {
+        
         print("ManagerLocation startLocation()")
         clLocationManager.startUpdatingLocation()
+        
     }
     
     
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("=== ManagerLocation locationManager(..., didChangeAuthorization...)")
-        if status != .notDetermined {
-            print("=== ManagerLocation locationManager(..., didChangeAuthorization...)")
-            print("=== ManagerLocation locationManager(..., didChangeAuthorization...) - BEFORE startLocation()")
-            startLocation()
+    func locationManager(
+        _ manager: CLLocationManager,
+        didChangeAuthorization status: CLAuthorizationStatus) {
+        
+        print("ManagerLocation locationManager(..., didChangeAuthorization...)")
+        print("- status.rawValue: \(status.rawValue)")
+        
+        switch status {
+        case .restricted, .denied:
+            
+            break
+            
+        case .authorizedWhenInUse:
+            
+            break
+            
+        case .notDetermined, .authorizedAlways:
+            
+            break
         }
         
     }
     
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("ManagerLocation locationManager(..., didFailWithError...)")
+        
+        print("EEEE ManagerLocation locationManager(..., didFailWithError...)")
+        print(error.localizedDescription)
+        
+    }
+    
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print("ManagerLocation locationManager(..., didUpdateLocations...)")
     }
     
     
@@ -74,48 +100,55 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     //  Unique instance for all App
     //
     private static var sharedManagerLocation: ManagerLocation = {
-        print("*** ManagerLocation var sharedManagerLocation)")
+        print("SSSS ManagerLocation var sharedManagerLocation")
         
         var singletonManager: ManagerLocation?
         
-        print("*** ManagerLocation var sharedManagerLocation - singletonManager: \(String(describing: singletonManager))")
+        print("SSSS ManagerLocation var sharedManagerLocation - singletonManager: \(String(describing: singletonManager))")
         if singletonManager == nil {
             
             singletonManager = ManagerLocation()
             
             singletonManager!.clLocationManager = CLLocationManager()
             
-            ////if CLLocationManager.locationServicesEnabled() {
-            singletonManager!.clLocationManager.delegate = singletonManager
+            singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
             
+            ////if CLLocationManager.locationServicesEnabled() {
+            print("SSSS ManagerLocation var sharedManagerLocation CLLocationManager.locationServicesEnabled() - \(CLLocationManager.locationServicesEnabled())")
+            
+            singletonManager!.clLocationManager.delegate = singletonManager
             
             // The minimum distance (measured in meters) a device must move horizontally
             // before an update event is generated.
             singletonManager!.clLocationManager.distanceFilter = 500
             
-            singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+            //--singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
             
             singletonManager!.clLocationManager.allowsBackgroundLocationUpdates = true
             
             let status: CLAuthorizationStatus =
                 CLLocationManager.authorizationStatus()
             
-            print("*** ManagerLocation var sharedManagerLocation - status: \(String(describing: status))")
+            print("SSSS ManagerLocation var sharedManagerLocation - status: \(String(describing: status))")
+            print("- status.rawValue: \(status.rawValue)")
             if status == .notDetermined {
+                print("*** ManagerLocation var sharedManagerLocation - status == .notDetermined")
                 singletonManager!.clLocationManager.requestWhenInUseAuthorization()
+                print("*** ManagerLocation var sharedManagerLocation - AFTER .requestWhenInUseAuthorization()")
+                singletonManager!.startLocation()
             }
             else {
                 singletonManager!.startLocation()
             }
         }
         
-        print("*** ManagerLocation var sharedManagerLocation - BEFORE return singletonManager)")
+        print("SSSS ManagerLocation var sharedManagerLocation - BEFORE return singletonManager)")
         return singletonManager!
     }()
     
     
     class func shared() -> ManagerLocation {
-        print("ManagerLocation shared()")
+        print("SSSS ManagerLocation shared()")
         return sharedManagerLocation
     }
 }

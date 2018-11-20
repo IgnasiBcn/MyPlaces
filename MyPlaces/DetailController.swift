@@ -27,6 +27,8 @@ class DetailController: UIViewController,
     
     var notificationCenter: NotificationCenter!
     
+    var sharedManagerLocation: ManagerLocation = ManagerLocation.shared()
+    
     @IBOutlet weak var constraintHeight: NSLayoutConstraint!
     @IBOutlet weak var viewPicker: UIPickerView!
     @IBOutlet weak var imagePicked: UIImageView!
@@ -49,12 +51,15 @@ class DetailController: UIViewController,
     //
     @IBAction func newOrUpdatePressed(_ sender: UIButton) {
         
-        let manager = ManagerPlaces.shared()
+        let sharedManagerPlaces = ManagerPlaces.shared()
         
         let name = textName.text!
         let description = textDescription.text!
         
         if place == nil { // NEW
+//            print("<<<< ManagerLocation newOrUpdatePressed(...) 1 sharedManagerLocation")
+//            let sharedManagerLocation = ManagerLocation.shared()
+            
             let indexPlacesTypes: Int = viewPicker.selectedRow(inComponent: 0)
             
             var data: Data? = nil
@@ -77,22 +82,20 @@ class DetailController: UIViewController,
                     image: data)
             }
             
-            //pl?.location = ManagerLocation.getLocation()
-            let instanceManagerLocation = ManagerLocation.shared()
-            //pl?.location = ManagerLocation.shared().getLocation()
-            pl?.location = instanceManagerLocation.getLocation()
-            manager.append(pl!)
+            print("ManagerLocation newOrUpdatePressed(...) 2 sharedManagerLocation.getLocation")
+            pl?.location = sharedManagerLocation.getLocation()
+            sharedManagerPlaces.append(pl!)
         }
         else { // UPDATE
             place!.name = name
             place!.description = description
         }
         
-        manager.store()
+        sharedManagerPlaces.store()
         
         dismiss(animated: true, completion: nil)
         
-        manager.updateObservers()
+        sharedManagerPlaces.updateObservers()
     }
     
     
@@ -119,12 +122,14 @@ class DetailController: UIViewController,
         ManagerPlaces.shared().updateObservers()
         
         dismiss(animated: true, completion: nil)
+        
     }
     
     
     @IBAction func cancelPressed(_ sender: Any) {
         
         dismiss(animated: true, completion: nil)
+        
     }
     
     
@@ -145,6 +150,7 @@ class DetailController: UIViewController,
         softKeyboardControl()
         
         loadVisualComponents()
+
     }
     
     
@@ -305,7 +311,9 @@ class DetailController: UIViewController,
     //  Protocol UIPickerViewDatasource
     /// Called by the picker view when it needs the number of components.
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        
         return 1
+        
     }
     
     

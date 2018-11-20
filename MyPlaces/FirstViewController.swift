@@ -12,6 +12,8 @@ class FirstViewController :
     UITableViewController,
     ManagerPlacesObserver {
     
+    var sharedManagerLocation: ManagerLocation = ManagerLocation.shared()
+    
     @IBOutlet weak var btnAdd: UIBarButtonItem!
     
     //let m_provider: ManagerPlaces = ManagerPlaces.shared()
@@ -151,6 +153,7 @@ class FirstViewController :
         
         print("____ FirstViewController addMyselfAsObserver()")
         ManagerPlaces.shared().addObserver(object: self)
+        
     }
     
     
@@ -167,5 +170,6 @@ class FirstViewController :
         print("____ FirstViewController onPlacesChange()")
         let view: UITableView = (self.view as? UITableView)!
         view.reloadData()
+        
     }
 }
