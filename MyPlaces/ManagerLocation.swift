@@ -7,12 +7,12 @@
 //
 
 import Foundation
-import MapKit
+import CoreLocation
 
 
 class ManagerLocation: NSObject, CLLocationManagerDelegate {
     
-    var clLocationManager: CLLocationManager!
+    var locationManager: CLLocationManager!
     
     
     
@@ -38,7 +38,7 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     
     public func getLocation() -> CLLocationCoordinate2D {
         
-        let clLocationCoordinate2D = (clLocationManager!.location?.coordinate)!
+        let clLocationCoordinate2D = (locationManager!.location?.coordinate)!
         print("ManagerLocation getLocation() cLLocationCoordinate2D: \(clLocationCoordinate2D)")
         // return (deviceLocationManager!.location?.coordinate)!
         return clLocationCoordinate2D
@@ -48,17 +48,28 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     
     func startLocation() {
         
-        print("ManagerLocation startLocation()")
-        clLocationManager.startUpdatingLocation()
+        print("3110 ManagerLocation startLocation()")
+        print("- BEFORE locationManager.startUpdatingLocation()")
+        locationManager.startUpdatingLocation()
         
     }
     
     
+    //  *****************************************************************
+    //  MARK: - extension CLLocationManagerDelegate
+    //
+    //  Protocol CLLocationManagerDelegate
+    //  The methods that you use to receive events from an associated
+    //  location manager object.
+    //
+    //
+    /// Tells the delegate that the authorization status for the application changed.
+    //
     func locationManager(
         _ manager: CLLocationManager,
         didChangeAuthorization status: CLAuthorizationStatus) {
         
-        print("ManagerLocation locationManager(..., didChangeAuthorization...)")
+        print("5000 ManagerLocation locationManager(..., didChangeAuthorization...)")
         print("- status.rawValue: \(status.rawValue)")
         
         switch status {
@@ -78,6 +89,13 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     }
     
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        
+        print("6000 ManagerLocation locationManager(..., didUpdateLocations...)")
+        
+    }
+    
+    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         print("EEEE ManagerLocation locationManager(..., didFailWithError...)")
@@ -86,13 +104,8 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     }
     
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print("ManagerLocation locationManager(..., didUpdateLocations...)")
-    }
     
-    
-    
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - SINGLETON Design Pattern
     //
     //  PLA3 - 1.5
@@ -100,41 +113,41 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
     //  Unique instance for all App
     //
     private static var sharedManagerLocation: ManagerLocation = {
-        print("SSSS ManagerLocation var sharedManagerLocation")
+        print("3100 ManagerLocation var sharedManagerLocation")
         
         var singletonManager: ManagerLocation?
         
-        print("SSSS ManagerLocation var sharedManagerLocation - singletonManager: \(String(describing: singletonManager))")
+        print("- singletonManager: \(String(describing: singletonManager))")
         if singletonManager == nil {
             
             singletonManager = ManagerLocation()
             
-            singletonManager!.clLocationManager = CLLocationManager()
+            singletonManager!.locationManager = CLLocationManager()
             
-            singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+            singletonManager!.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             
             ////if CLLocationManager.locationServicesEnabled() {
-            print("SSSS ManagerLocation var sharedManagerLocation CLLocationManager.locationServicesEnabled() - \(CLLocationManager.locationServicesEnabled())")
+            print("- CLLocationManager.locationServicesEnabled():  \(CLLocationManager.locationServicesEnabled())")
             
-            singletonManager!.clLocationManager.delegate = singletonManager
+            singletonManager!.locationManager.delegate = singletonManager
             
             // The minimum distance (measured in meters) a device must move horizontally
             // before an update event is generated.
-            singletonManager!.clLocationManager.distanceFilter = 500
+            singletonManager!.locationManager.distanceFilter = 500
             
-            //--singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+            //--singletonManager!.locationManager.desiredAccuracy = kCLLocationAccuracyBest
             
-            singletonManager!.clLocationManager.allowsBackgroundLocationUpdates = true
+            singletonManager!.locationManager.allowsBackgroundLocationUpdates = true
             
             let status: CLAuthorizationStatus =
                 CLLocationManager.authorizationStatus()
             
-            print("SSSS ManagerLocation var sharedManagerLocation - status: \(String(describing: status))")
+            print("- status: \(String(describing: status))")
             print("- status.rawValue: \(status.rawValue)")
             if status == .notDetermined {
-                print("*** ManagerLocation var sharedManagerLocation - status == .notDetermined")
-                singletonManager!.clLocationManager.requestWhenInUseAuthorization()
-                print("*** ManagerLocation var sharedManagerLocation - AFTER .requestWhenInUseAuthorization()")
+                print("- status == .notDetermined")
+                singletonManager!.locationManager.requestAlwaysAuthorization()
+                print("- AFTER .requestWhenInUseAuthorization()")
                 singletonManager!.startLocation()
             }
             else {
@@ -142,13 +155,13 @@ class ManagerLocation: NSObject, CLLocationManagerDelegate {
             }
         }
         
-        print("SSSS ManagerLocation var sharedManagerLocation - BEFORE return singletonManager)")
+        print("- BEFORE return singletonManager)")
         return singletonManager!
     }()
     
     
     class func shared() -> ManagerLocation {
-        print("SSSS ManagerLocation shared()")
+        print("3000 ManagerLocation shared()")
         return sharedManagerLocation
     }
 }

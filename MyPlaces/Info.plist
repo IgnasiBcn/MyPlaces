@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>The application uses this information to show you your location</string>
+	<string>The application uses this information to show your location</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Always mode is recommended for this app for improved location tracking</string>
 	<key>CFBundleDocumentTypes</key>

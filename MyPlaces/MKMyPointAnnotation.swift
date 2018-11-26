@@ -22,7 +22,7 @@ class MKMyPointAnnotaion : NSObject, MKAnnotation {
     init(coordinate: CLLocationCoordinate2D, title: String,
          subtitle: String, place_id: String) {
         
-        print("____ MKMyPointAnnotaion - init(coordinate, title, subtitle, place_id)")
+        print("1-1210 MKMyPointAnnotaion - init(coordinate, title, subtitle, place_id)")
         print("- title: \(title), place_id: \(place_id)")
         self.coordinate = coordinate
         self.title = title

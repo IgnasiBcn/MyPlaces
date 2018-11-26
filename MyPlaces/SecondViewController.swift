@@ -14,24 +14,27 @@ class SecondViewController: UIViewController,
                             ManagerPlacesObserver {
 
     
-    @IBOutlet weak var mkMapView: MKMapView!
+    @IBOutlet weak var mapView: MKMapView!
     
     
     
-    //  *******************************************************************
-    //  MARK: - Overrided methods
+    //  *****************************************************************
+    //  MARK: - Overrided methods UIViewController
     //
     override func viewDidLoad() {
         
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        print("____ SecondViewController viewDidLoad()")
+        print("1-1000 SecondViewController viewDidLoad()")
         addMyselfAsObserver()
+        
+        mapView.delegate = self
         
         addMarkers()
         
-        mkMapView.delegate = self
+        print("1-1000 - BEFORE mapView.delegate = self")
+        
         
     }
 
@@ -45,7 +48,7 @@ class SecondViewController: UIViewController,
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - MANAGE MARKERS ON THE MAP
     //
     //  PLA3 - 2.4.2
@@ -54,25 +57,25 @@ class SecondViewController: UIViewController,
     //
     func addMarkers() {
        
-        print("==== SecondViewController addMarkers()")
+        print("1-1200 SecondViewController addMarkers()")
         let managerPlaces = ManagerPlaces.shared()
         
         for i in 0..<managerPlaces.getCount() {
             let place = managerPlaces.getItemAt(position: i)
             
-            let mkMyPointAnnotation = MKMyPointAnnotaion(
+            let myPointAnnotation = MKMyPointAnnotaion(
                 coordinate: CLLocationCoordinate2D(
                     latitude: place.location.latitude,
                     longitude: place.location.longitude),
                 title: place.name,
-                subtitle: "My Subtitle",
+                subtitle: place.description,
                 place_id: place.id)
             
-            print("==== SecondViewController addMarkers() - BEFORE mkMapView.addAnnotation(mkMyPointAnnotation)")
-            mkMapView.addAnnotation(mkMyPointAnnotation)
+            print("1-1200 - BEFORE mapView.addAnnotation(mkMyPointAnnotation)")
+            mapView.addAnnotation(myPointAnnotation)
         }
-        print("-- BEFORE mkMapView.showAnnotations(mkMapView.annotations, animated: true)")
-        mkMapView.showAnnotations(mkMapView.annotations, animated: true)
+        print("1-1200 - BEFORE mapView.showAnnotations(mapView.annotations, animated: true)")
+        mapView.showAnnotations(mapView.annotations, animated: true)
         
     }
     
@@ -83,61 +86,67 @@ class SecondViewController: UIViewController,
         
         print("RRRR SecondViewController removeMarkers()")
         let userLocationAnnotations =
-            mkMapView.annotations.filter { !($0 is MKUserLocation) }
+            mapView.annotations.filter { !($0 is MKUserLocation) }
         
-        mkMapView.removeAnnotations(userLocationAnnotations)
+        mapView.removeAnnotations(userLocationAnnotations)
         
     }
     
     
-    
-    //  *******************************************************************
-    //  MARK: - MKMapView Protocols
+    //  *****************************************************************
+    //  MARK: - extension MKMapViewDelegate
     //
     //  Protocol MKMapViewDelegate
+    //  Optional methods that you use to receive map-related update messages.
+    //
+    //
     /// Returns the view associated with the specified annotation object.
     //
-    func mapView(_ mapView: MKMapView,
-                 viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        print(">>>> SecondViewController mapView(mapView, annotation)")
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+
+        print("1-4000 SecondViewController mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation)")
         if let annotation = annotation as? MKMyPointAnnotaion {
-            
+
             let identifier = "CustomPinAnnotationView"
-            
-            var pinView: MKPinAnnotationView
-            
+
+            var pinAnnotationView: MKPinAnnotationView
+
             if let dequeuedView =
-                mkMapView?.dequeueReusableAnnotationView(withIdentifier:
-                    identifier) as? MKPinAnnotationView {
-                print("--> let dequeuedView (TRUE)")
+                self.mapView.dequeueReusableAnnotationView(
+                    withIdentifier: identifier) as? MKPinAnnotationView {
+                
+                print("- let dequeuedView (TRUE)")
                 dequeuedView.annotation = annotation
-                pinView = dequeuedView
+                pinAnnotationView = dequeuedView
             }
             else {
-                print("--> let dequeuedView (FALSE)")
+                print("- let dequeuedView (FALSE)")
                 // Constructor superclass MKAnnotationView
-                pinView = MKPinAnnotationView(annotation: annotation,
+                pinAnnotationView = MKPinAnnotationView(annotation: annotation,
                                               reuseIdentifier: identifier)
-                pinView.canShowCallout = true   // Super class MKAnnotationView
-                
-                pinView.calloutOffset = CGPoint(x: -5, y: 5)    // Super class MKAnnotationView
-                
-                pinView.rightCalloutAccessoryView =
+                pinAnnotationView.canShowCallout = true   // Super class MKAnnotationView
+
+                pinAnnotationView.calloutOffset = CGPoint(x: -5, y: 5)    // Super class MKAnnotationView
+
+                pinAnnotationView.rightCalloutAccessoryView =
                     UIButton(type: .detailDisclosure) as UIView // Super class MKAnnotationView
-                
-                pinView.setSelected(true, animated: true)
+
+                pinAnnotationView.setSelected(true, animated: true)
             }
-            print(">>>> SecondViewController mapView(mapView, annotation)")
-            print("- pinView: \(pinView)")
-            return pinView
+            print("1-4000 - pinAnnotationView: \(pinAnnotationView)")
+            return pinAnnotationView
         }
         return nil
-        
+
     }
     
 
-    //  Protocol MKMapViewDelegate
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("1-6000 SecondViewController mapView(... , didSelect: view: MKAnnotationView)")
+        print("- view: \(String(describing: view.annotation?.title))")
+    }
+    
+    
     /// Returns the view associated with the specified annotation object.
     //
     func mapView(_ mapView: MKMapView,
@@ -160,18 +169,20 @@ class SecondViewController: UIViewController,
         
     }
     
+    
+    
     //  Protocol MKMapViewDelegate
     /// Tells the delegate that one or more annotation views were added to the map.
     //
     func mapView(_: MKMapView, didAdd: [MKAnnotationView]) {
         
-        print("&&&& SecondViewController mapView(_: MKMapView, didAdd: [MKAnnotationView])")
+        print("1-5000 SecondViewController mapView(_: MKMapView, didAdd: [MKAnnotationView])")
         
     }
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - OBSERVER Design Pattern
     //
     //
@@ -181,7 +192,7 @@ class SecondViewController: UIViewController,
     //
     func addMyselfAsObserver() {
         
-        print("____ SecondViewController addMyselfAsObserver()")
+        print("1-1100 SecondViewController addMyselfAsObserver()")
         ManagerPlaces.shared().addObserver(object: self)
         
     }
@@ -197,7 +208,7 @@ class SecondViewController: UIViewController,
     //
     func onPlacesChange() {
         
-        print("OOOO SecondViewController onPlacesChange() BEFORE addMarkers()")
+        print("1-7OOO SecondViewController onPlacesChange() BEFORE addMarkers()")
         
         removeMarkers()
         addMarkers()

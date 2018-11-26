@@ -14,7 +14,7 @@ class DetailController: UIViewController,
                         UINavigationControllerDelegate,
                         UITextViewDelegate, UITextFieldDelegate {
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - Instance Properties
     //
     var place: Place? = nil
@@ -41,7 +41,7 @@ class DetailController: UIViewController,
     @IBOutlet weak var btnUpdate: UIButton!
 
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - @IBActions
     //
     //  PLA2 - 4.1
@@ -134,11 +134,11 @@ class DetailController: UIViewController,
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - Overrided methods
     //
     override func viewDidLoad() {
-        print("ManagerLocation viewDidLoad()")
+        print("0-7000 DetailController viewDidLoad()")
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
@@ -154,13 +154,14 @@ class DetailController: UIViewController,
     }
     
     
-    override func viewDidDisappear(_ animated: Bool)
-    {
+    override func viewDidDisappear(_ animated: Bool) {
+        
         super.viewDidDisappear(true)
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("ManagerLocation viewDidAppear(...)")
+        print("0-7000 DetailController viewDidAppear(...)")
     }
     
     override func didReceiveMemoryWarning() {
@@ -170,7 +171,7 @@ class DetailController: UIViewController,
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - LOAD VISUAL COMPONENTS in the view
     //
     private func loadVisualComponents() {
@@ -194,14 +195,12 @@ class DetailController: UIViewController,
             
             var indexPlacesTypes = 0
             indexPlacesTypes = place!.type.rawValue
-            if place!.type == Place.PlacesTypes.TouristicPlace
-            {
+            if place!.type == Place.PlacesTypes.TouristicPlace {
                 indexPlacesTypes = 1
             }
             viewPicker.selectRow(indexPlacesTypes, inComponent: 0, animated: false)
         }
-        else  // NEW
-        {
+        else { // NEW
             btnUpdate.setTitle("New", for: .normal)
             btnUpdate.setTitle("New", for: .highlighted)
         }
@@ -209,7 +208,7 @@ class DetailController: UIViewController,
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - SOFT KEYBOARD control and interaction
     //
     //  PLA2 - 3.2.4
@@ -266,19 +265,17 @@ class DetailController: UIViewController,
                 (activeField?.frame.origin.y)! -
                 (activeField?.frame.size.height)!
             let collapseSpace = keyboardHeight - distanceToBottom
-            if collapseSpace > 0
-            {
+            if collapseSpace > 0 {
                 scrollView.setContentOffset(
                     CGPoint(x: self.lastOffset.x, y: collapseSpace + 10),
                     animated: false)
                 
                 constraintHeight.constant += self.keyboardHeight
-            }
-            else
-            {
+            } else {
                 keyboardHeight = nil
             }
         }
+        
     }
     
     
@@ -305,7 +302,7 @@ class DetailController: UIViewController,
     }
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - UIPickerView Protocols
     //
     //  Protocol UIPickerViewDatasource
@@ -329,15 +326,16 @@ class DetailController: UIViewController,
     /// Called by the picker view when it needs the title to use for a given row in a given component.
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
-                    forComponent component: Int) -> String?
-    {
+                    forComponent component: Int) -> String? {
+        
         return pickerElems1[row]
+        
     }
 
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - UITextField and UITextView Protocols
     //  Used to know which UITextView we want to edit
     //  PLA2 - 3.2.5
@@ -354,14 +352,14 @@ class DetailController: UIViewController,
     
     //  Protocol UITextViewDelegate
     /// Asks the delegate if editing should stop in the specified text view.
-    @objc func textViewShouldEndEditing(_ textView: UITextView) -> Bool
-    {
-        if activeField == textView
-        {
+    @objc func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        
+        if activeField == textView {
             activeField?.resignFirstResponder()     // .resignFirstResponder() - Class UIView
             activeField = nil
         }
         return true
+        
     }
     
     
@@ -389,7 +387,7 @@ class DetailController: UIViewController,
     
     
     
-    //  ********************************************************************
+    //  *****************************************************************
     //  MARK: - UIImagePickerController Protocols
     //  PLA2 - 3.1
     //
@@ -411,9 +409,12 @@ class DetailController: UIViewController,
         dismiss(animated: true, completion: nil)    // dismiss(...) - Class UIViewController
     }
     
+    
     //  Protocol UIImagePickerControllerDelegate
     /// Tells the delegate that the user cancelled the pick operation.
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        
         dismiss(animated: true, completion: nil)
+        
     }
 }

@@ -19,12 +19,14 @@ class ManagerPlaces: Codable {
     enum CodingKeys: String, CodingKey {
         
         case places
+        
     }
     
     
     enum PlacesTypeKey: CodingKey {
         
         case type
+        
     }
     
     
@@ -33,6 +35,7 @@ class ManagerPlaces: Codable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(places, forKey: .places)
+        
     }
     
     
@@ -59,6 +62,7 @@ class ManagerPlaces: Codable {
                 self.append(try tmp_array.decode(Place.self))
             }
         }
+        
     }
     
     
@@ -109,18 +113,21 @@ class ManagerPlaces: Codable {
     func append(_ value: Place) {
         
         places.append(value)
+        
     }
     
     
     func getCount() -> Int {
         
         return places.count
+        
     }
     
     
     func getItemAt(position:Int) -> Place {
         
         return places[position]
+        
     }
 
 
@@ -135,6 +142,7 @@ class ManagerPlaces: Codable {
     func remove(_ value: Place) {
         
         places = places.filter {$0.id != value.id}
+        
     }
     
     
@@ -142,11 +150,12 @@ class ManagerPlaces: Codable {
         
         let r = FileSystem.getPathImage(id: p.id)
         return r
+        
     }
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - SINGLETON Design Pattern
     //
     //  PLA1 - 3.4
@@ -175,7 +184,7 @@ class ManagerPlaces: Codable {
     
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - OBSERVER Design Pattern
     //
     //  PLA2 - 5.3

@@ -85,14 +85,14 @@ class Place: Codable {
     
     
     
-    //  ********************************************************************
+    //  *****************************************************************
     //  MARK: - Encodable Protocol
     //  PLA2 - 6.3.3
     //
     //  Protocol Encodable
     /// Encodes this value into the given encoder.
-    func encode(to encoder: Encoder) throws
-    {
+    func encode(to encoder: Encoder) throws {
+        
         var container = encoder.container(keyedBy: CodingKeys.self)
         
         try container.encode(id, forKey: .id)
@@ -101,11 +101,12 @@ class Place: Codable {
         try container.encode(description, forKey: .description)
         try container.encode(location.latitude, forKey: .latitude)
         try container.encode(location.longitude, forKey: .longitude)
+        
     }
     
     
-    func decode(from decoder: Decoder) throws
-    {
+    func decode(from decoder: Decoder) throws {
+        
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decode(String.self, forKey: .id)
@@ -118,5 +119,7 @@ class Place: Codable {
         location = CLLocationCoordinate2D(
             latitude: latitude,
             longitude: longitude)
+        
     }
+    
 }

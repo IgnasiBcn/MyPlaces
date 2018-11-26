@@ -19,7 +19,7 @@ class FirstViewController :
     //let m_provider: ManagerPlaces = ManagerPlaces.shared()
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - Overrided methods
     //
     override func viewDidLoad() {
@@ -42,7 +42,7 @@ class FirstViewController :
     }
     
     
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - TABLE Protocol
     //
     //  FirstViewController inherits UITableViewController which conforms
@@ -142,7 +142,7 @@ class FirstViewController :
   
     
 
-    //  *******************************************************************
+    //  *****************************************************************
     //  MARK: - OBSERVER Design Pattern
     //
     //
@@ -152,7 +152,7 @@ class FirstViewController :
     //
     func addMyselfAsObserver() {
         
-        print("____ FirstViewController addMyselfAsObserver()")
+        print("4000 FirstViewController addMyselfAsObserver()")
         ManagerPlaces.shared().addObserver(object: self)
         
     }

@@ -245,7 +245,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="mkMapView" destination="UVu-we-vFY" id="Gdv-Fp-edi"/>
+                        <outlet property="mapView" destination="UVu-we-vFY" id="Gdv-Fp-edi"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FFL-zA-sg4" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -77,17 +77,17 @@
 				CEAA755321639C5C0039D783 /* LaunchScreen.storyboard */,
 				CEAA754821639C3B0039D783 /* AppDelegate.swift */,
 				CE79A61F2179BA5A00C531D9 /* FileSystem.swift */,
-				CEAA755621639C5C0039D783 /* Info.plist */,
-				CEAA754E21639C3C0039D783 /* Main.storyboard */,
 				CEAA754A21639C3C0039D783 /* FirstViewController.swift */,
 				CEAA754C21639C3C0039D783 /* SecondViewController.swift */,
 				CEAA755C2163D7970039D783 /* DetailController.swift */,
+				CEAA754E21639C3C0039D783 /* Main.storyboard */,
 				CEAA755121639C5C0039D783 /* Assets.xcassets */,
 				CEAA75612163EC120039D783 /* Place.swift */,
 				CEAA75632163EFBF0039D783 /* PlaceTourist.swift */,
 				CE6E6563219987BD00DAD816 /* MKMyPointAnnotation.swift */,
 				CEAA75652163F44C0039D783 /* ManagerPlaces.swift */,
 				CE79A61E2179BA5900C531D9 /* ManagerLocation.swift */,
+				CEAA755621639C5C0039D783 /* Info.plist */,
 			);
 			path = MyPlaces;
 			sourceTree = "<group>";
