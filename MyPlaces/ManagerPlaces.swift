@@ -92,7 +92,7 @@ class ManagerPlaces: Codable {
     }
     
     
-    static func load() -> ManagerPlaces? {
+    private static func load() -> ManagerPlaces? {
         var resul: ManagerPlaces? = nil
         let data_str = FileSystem.read()
         if data_str != "" {
@@ -199,7 +199,7 @@ class ManagerPlaces: Codable {
     }
     
     
-    public func updateObservers() {
+    func updateObservers() {
         
         for item in managerPlacesObservers {
             print("ManagerPlaces updateObservers() - \(item)")
@@ -220,5 +220,83 @@ class ManagerPlaces: Codable {
 protocol ManagerPlacesObserver {
     
     func onPlacesChange()
+    
+}
+
+
+
+
+
+protocol ManagerPlaceable {
+    
+//    func getCount() -> Int
+//    func getItemAt(position:Int) -> Place
+//    func getItemById(id: String) -> Place
+//    func remove(_ value: Place)
+//    func getPathImage(p: Place) -> String
+}
+
+extension ManagerPlaceable {
+    
+    func store() {
+        
+        return ManagerPlaces.shared().store()
+        
+    }
+    
+    
+    func append(_ value: Place) {
+        
+        ManagerPlaces.shared().append(value)
+        
+    }
+    
+    
+    func getCount() -> Int {
+        
+        return ManagerPlaces.shared().getCount()
+        
+    }
+    
+    
+    func getItemAt(position: Int) -> Place {
+        
+        return ManagerPlaces.shared().getItemAt(position: position)
+        
+    }
+    
+    
+    func getItemById(id: String) -> Place {
+        
+        return ManagerPlaces.shared().getItemById(id: id)
+        
+    }
+    
+    
+    func remove(_ value: Place) {
+        
+        ManagerPlaces.shared().remove(value)
+        
+    }
+    
+    
+    func getPathImage(p: Place) -> String {
+        
+        return ManagerPlaces.shared().getPathImage(p: p)
+        
+    }
+    
+    
+    func addObserver(object: ManagerPlacesObserver) {
+        
+        ManagerPlaces.shared().addObserver(object: object)
+        
+    }
+    
+    func updateObservers() {
+        
+        ManagerPlaces.shared().updateObservers()
+        
+    }
     
 }

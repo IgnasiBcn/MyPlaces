@@ -8,11 +8,14 @@
 
 import UIKit
 
-class DetailController: UIViewController,
-                        UIPickerViewDelegate, UIPickerViewDataSource,
-                        UIImagePickerControllerDelegate,
-                        UINavigationControllerDelegate,
-                        UITextViewDelegate, UITextFieldDelegate {
+class DetailController:
+    UIViewController,
+    UIPickerViewDelegate, UIPickerViewDataSource,
+    UIImagePickerControllerDelegate,
+    UINavigationControllerDelegate,
+    UITextViewDelegate, UITextFieldDelegate,
+    MyLocationManegeable,
+    ManagerPlaceable {
     
     //  *****************************************************************
     //  MARK: - Instance Properties
@@ -27,7 +30,7 @@ class DetailController: UIViewController,
     
     var notificationCenter: NotificationCenter!
     
-    var sharedManagerLocation: ManagerLocation = ManagerLocation.shared()
+    //    var sharedManagerLocation: MyLocationManager = MyLocationManager.shared() #NP
     
     @IBOutlet weak var constraintHeight: NSLayoutConstraint!
     @IBOutlet weak var viewPicker: UIPickerView!
@@ -51,14 +54,14 @@ class DetailController: UIViewController,
     //
     @IBAction func newOrUpdatePressed(_ sender: UIButton) {
         
-        let sharedManagerPlaces = ManagerPlaces.shared()
+        //        let sharedManagerPlaces = ManagerPlaces.shared() #NP
         
         let name = textName.text!
         let description = textDescription.text!
         
         if place == nil { // NEW
-//            print("<<<< ManagerLocation newOrUpdatePressed(...) 1 sharedManagerLocation")
-//            let sharedManagerLocation = ManagerLocation.shared()
+//            print("<<<< MyLocationManager newOrUpdatePressed(...) 1 sharedManagerLocation")
+//            let sharedManagerLocation = MyLocationManager.shared()
             
             let indexPlacesTypes: Int = viewPicker.selectedRow(inComponent: 0)
             
@@ -82,20 +85,25 @@ class DetailController: UIViewController,
                     image: data)
             }
             
-            print("ManagerLocation newOrUpdatePressed(...) 2 sharedManagerLocation.getLocation")
-            pl?.location = sharedManagerLocation.getLocation()
-            sharedManagerPlaces.append(pl!)
+            print("0-8000MyLocationManager newOrUpdatePressed(...)")
+            print("- BEFORE sharedManagerLocation.getLocation()")
+            //            pl?.location = sharedManagerLocation.getLocation() #NP
+            pl?.location = getLocation()
+//            sharedManagerPlaces.append(pl!)  #NP
+            append(pl!)
         }
         else { // UPDATE
             place!.name = name
             place!.description = description
         }
         
-        sharedManagerPlaces.store()
+        //        sharedManagerPlaces.store() #NP
+        store()
         
         dismiss(animated: true, completion: nil)
         
-        sharedManagerPlaces.updateObservers()
+        //        sharedManagerPlaces.updateObservers() #NP
+        updateObservers()
     }
     
     
@@ -116,7 +124,8 @@ class DetailController: UIViewController,
     @IBAction func removePressed(_ sender: Any) {
         
         if place != nil {   // UPDATE
-            ManagerPlaces.shared().remove(place!)
+            // ManagerPlaces.shared().remove(place!) #NP
+            remove(place!)
         }
         
         ManagerPlaces.shared().updateObservers()

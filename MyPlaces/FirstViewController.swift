@@ -10,13 +10,15 @@ import UIKit
 
 class FirstViewController :
     UITableViewController,
-    ManagerPlacesObserver {
+    ManagerPlacesObserver,
+    ManagerPlaceable{
     
-    var sharedManagerLocation: ManagerLocation = ManagerLocation.shared()
+    
+//    let sharedManagerLocation: MyLocationManager
     
     @IBOutlet weak var btnAdd: UIBarButtonItem!
     
-    //let m_provider: ManagerPlaces = ManagerPlaces.shared()
+    //    let m_provider: ManagerPlaces = ManagerPlaces.shared() #NP
     
     
     //  *****************************************************************
@@ -26,19 +28,25 @@ class FirstViewController :
         super.viewDidLoad()
         
         // Do any additional setup after loading the view, typically from a nib.
-        let view: UITableView = (self.view as? UITableView)!;
+        print("0-2000 FirstViewController viewDidLoad()")
+        print("- BEFORE let _:MyLocationManager = MyLocationManager.shared")
+        let _:MyLocationManager = MyLocationManager.shared
+        
+        let view = (self.view as? UITableView)!;
         view.delegate = self
         view.dataSource = self
         
+        print("0-2000 BEFORE addMyselfAsObserver()")
         addMyselfAsObserver()
-        
-        
+
     }
 
     
     override func didReceiveMemoryWarning() {
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+        
     }
     
     
@@ -54,9 +62,12 @@ class FirstViewController :
     /// Tells the data source to return the number of rows in a given section of a table view.
     override func tableView(
         _ tableView: UITableView,
-        numberOfRowsInSection section: Int) -> Int
-    {
-        return ManagerPlaces.shared().getCount()
+        numberOfRowsInSection section: Int) -> Int {
+        
+        //        return ManagerPlaces.shared().getCount() #NP
+        print("P-1000 FirstViewController tableView(..., numberOfRowsInSection...")
+        return getCount()
+        
     }
     
     
@@ -65,9 +76,10 @@ class FirstViewController :
     /// Asks the data source to return the number of sections in the table view.
     /// The default value is 1.
     override func numberOfSections(
-        in tableView: UITableView) -> Int
-    {
+        in tableView: UITableView) -> Int {
+        
         return 1
+        
     }
     
     
@@ -84,8 +96,11 @@ class FirstViewController :
                     withIdentifier: "DetailController") as! DetailController
         
         
-        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row)
+        //        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row) #NP
+        let place: Place = getItemAt(position: indexPath.row)
         dc.place = place
+        print("1-1000 FirstViewController tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath)")
+        print("- BEFORE present(dc, animated: true, completion: nil)")
         present(dc, animated: true, completion: nil)
         
     }
@@ -123,7 +138,8 @@ class FirstViewController :
         label.numberOfLines = 4
         
         let index = indexPath.row
-        let strName = ManagerPlaces.shared().getItemAt(position: index).name
+        //        let strName = ManagerPlaces.shared().getItemAt(position: index).name #NP
+        let strName = getItemAt(position: index).name
         label.text = strName
         label.sizeToFit()
         cell.contentView.addSubview(label)
@@ -131,13 +147,17 @@ class FirstViewController :
 //        let imageIcon: UIImageView = UIImageView(image: UIImage(named:"sun.png"))
 //        imageIcon.frame = CGRect(x:10, y:50, width:50, height:50)
 //        cell.contentView.addSubview(imageIcon)
-        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row)
+        //        let place: Place = ManagerPlaces.shared().getItemAt(position: indexPath.row) #NP
+        let place: Place = getItemAt(position: indexPath.row)
+        //        let imageIcon: UIImageView = UIImageView( #NP
+//            image: UIImage(contentsOfFile: ManagerPlaces.shared().getPathImage(p: place)))
         let imageIcon: UIImageView = UIImageView(
-            image: UIImage(contentsOfFile: ManagerPlaces.shared().getPathImage(p: place)))
+            image: UIImage(contentsOfFile: getPathImage(p: place)))
         imageIcon.frame = CGRect(x:10, y:30, width: 50, height: 50)
         cell.contentView.addSubview(imageIcon)
 
         return cell
+        
     }
   
     
@@ -152,8 +172,9 @@ class FirstViewController :
     //
     func addMyselfAsObserver() {
         
-        print("4000 FirstViewController addMyselfAsObserver()")
-        ManagerPlaces.shared().addObserver(object: self)
+        print("0-2100 FirstViewController addMyselfAsObserver()")
+        //        ManagerPlaces.shared().addObserver(object: self) #NP
+        addObserver(object: self)
         
     }
     

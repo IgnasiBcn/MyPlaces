@@ -9,9 +9,11 @@
 import UIKit
 import MapKit
 
-class SecondViewController: UIViewController,
-                            MKMapViewDelegate,
-                            ManagerPlacesObserver {
+class SecondViewController:
+    UIViewController,
+    MKMapViewDelegate,
+    ManagerPlacesObserver,
+    ManagerPlaceable {
 
     
     @IBOutlet weak var mapView: MKMapView!
@@ -58,10 +60,12 @@ class SecondViewController: UIViewController,
     func addMarkers() {
        
         print("1-1200 SecondViewController addMarkers()")
-        let managerPlaces = ManagerPlaces.shared()
+        //        let managerPlaces = ManagerPlaces.shared() #NP
         
-        for i in 0..<managerPlaces.getCount() {
-            let place = managerPlaces.getItemAt(position: i)
+        //        for i in 0..<managerPlaces.getCount() { #NP
+//            let place = managerPlaces.getItemAt(position: i) #NP
+        for i in 0..<getCount() {
+            let place = getItemAt(position: i)
             
             let myPointAnnotation = MKMyPointAnnotaion(
                 coordinate: CLLocationCoordinate2D(
@@ -163,7 +167,8 @@ class SecondViewController: UIViewController,
             UIStoryboard(name: "Main",bundle:nil).instantiateViewController(
                 withIdentifier: "DetailController") as! DetailController
         
-        let place: Place = ManagerPlaces.shared().getItemById(id: annotation.place_id)
+//        let place: Place = ManagerPlaces.shared().getItemById(id: annotation.place_id)
+        let place: Place = getItemById(id: annotation.place_id)
         dc.place = place
         present(dc, animated: true, completion: nil)
         
@@ -193,7 +198,8 @@ class SecondViewController: UIViewController,
     func addMyselfAsObserver() {
         
         print("1-1100 SecondViewController addMyselfAsObserver()")
-        ManagerPlaces.shared().addObserver(object: self)
+        //        ManagerPlaces.shared().addObserver(object: self) #NP
+        addObserver(object: self)
         
     }
     
