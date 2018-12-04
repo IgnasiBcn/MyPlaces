@@ -8,12 +8,14 @@
 
 import Foundation
 
-class ManagerPlaces: Codable {
+class ManagerPlaces: NSObject, Codable {
     
     var places: [Place] = []
     
     // A collection containing subscribers
     public var managerPlacesObservers = Array<ManagerPlacesObserver>()
+    
+    public var delegate:ManagerPlacesStoreObserver? = nil
 
     
     enum CodingKeys: String, CodingKey {
@@ -66,16 +68,28 @@ class ManagerPlaces: Codable {
     }
     
     
-    //  PLA2 - 6.5.3
+    // PLA4 - 1.2.3
+    //
     func store() {
         
+        print("1-8100 ManagerPlaces store()")
+        performSelector(inBackground: #selector(storeInternal),
+                        with: nil)
+        
+    }
+    
+    
+    //  PLA2 - 6.5.3
+    //
+    @objc func storeInternal() {
+        
+        print("1-8110 ManagerPlaces storeInternal()")
         do {
             let encoder = JSONEncoder()
 
             let data: Data = try encoder.encode(self)
             
             for place in places {
-                
                 if place.image != nil {
                     FileSystem.writeData(id: place.id, image: place.image!)
                     place.image = nil
@@ -89,6 +103,13 @@ class ManagerPlaces: Codable {
         catch {
             
         }
+        
+        print("- BEFORE Thread.sleep(forTimeInterval: 3)")
+        Thread.sleep(forTimeInterval: 3)
+        
+        print("- BEFORE self.delegate?.onPlacesStoreEnd(resul: 1)")
+        self.delegate?.onPlacesStoreEnd(resul: 1)
+        
     }
     
     
@@ -202,7 +223,7 @@ class ManagerPlaces: Codable {
     func updateObservers() {
         
         for item in managerPlacesObservers {
-            print("ManagerPlaces updateObservers() - \(item)")
+            print("1-9000 ManagerPlaces updateObservers() - \(item)")
             item.onPlacesChange()
         }
         
@@ -225,78 +246,90 @@ protocol ManagerPlacesObserver {
 
 
 
+//protocol ManagerPlaceable {
+//    
+////    func getCount() -> Int
+////    func getItemAt(position:Int) -> Place
+////    func getItemById(id: String) -> Place
+////    func remove(_ value: Place)
+////    func getPathImage(p: Place) -> String
+//}
+//
+//
+//
+//extension ManagerPlaceable {
+//    
+//    func store() {
+//        
+//        return ManagerPlaces.shared().store()
+//        
+//    }
+//    
+//    
+//    func append(_ value: Place) {
+//        
+//        ManagerPlaces.shared().append(value)
+//        
+//    }
+//    
+//    
+//    func getCount() -> Int {
+//        
+//        return ManagerPlaces.shared().getCount()
+//        
+//    }
+//    
+//    
+//    func getItemAt(position: Int) -> Place {
+//        
+//        return ManagerPlaces.shared().getItemAt(position: position)
+//        
+//    }
+//    
+//    
+//    func getItemById(id: String) -> Place {
+//        
+//        return ManagerPlaces.shared().getItemById(id: id)
+//        
+//    }
+//    
+//    
+//    func remove(_ value: Place) {
+//        
+//        ManagerPlaces.shared().remove(value)
+//        
+//    }
+//    
+//    
+//    func getPathImage(p: Place) -> String {
+//        
+//        return ManagerPlaces.shared().getPathImage(p: p)
+//        
+//    }
+//    
+//    
+//    func addObserver(object: ManagerPlacesObserver) {
+//        
+//        ManagerPlaces.shared().addObserver(object: object)
+//        
+//    }
+//    
+//    func updateObservers() {
+//        
+//        ManagerPlaces.shared().updateObservers()
+//        
+//    }
+//    
+//}
 
-
-protocol ManagerPlaceable {
+//  PLA4 - 1.3.2
+//
+/// All subscribers will have to implement the onPlacesStoreEnd(resul: Int) method
+/// of this protocol.
+/// In this App there is one subscriber object: DetailController
+//
+protocol ManagerPlacesStoreObserver {
     
-//    func getCount() -> Int
-//    func getItemAt(position:Int) -> Place
-//    func getItemById(id: String) -> Place
-//    func remove(_ value: Place)
-//    func getPathImage(p: Place) -> String
-}
-
-extension ManagerPlaceable {
-    
-    func store() {
-        
-        return ManagerPlaces.shared().store()
-        
-    }
-    
-    
-    func append(_ value: Place) {
-        
-        ManagerPlaces.shared().append(value)
-        
-    }
-    
-    
-    func getCount() -> Int {
-        
-        return ManagerPlaces.shared().getCount()
-        
-    }
-    
-    
-    func getItemAt(position: Int) -> Place {
-        
-        return ManagerPlaces.shared().getItemAt(position: position)
-        
-    }
-    
-    
-    func getItemById(id: String) -> Place {
-        
-        return ManagerPlaces.shared().getItemById(id: id)
-        
-    }
-    
-    
-    func remove(_ value: Place) {
-        
-        ManagerPlaces.shared().remove(value)
-        
-    }
-    
-    
-    func getPathImage(p: Place) -> String {
-        
-        return ManagerPlaces.shared().getPathImage(p: p)
-        
-    }
-    
-    
-    func addObserver(object: ManagerPlacesObserver) {
-        
-        ManagerPlaces.shared().addObserver(object: object)
-        
-    }
-    
-    func updateObservers() {
-        
-        ManagerPlaces.shared().updateObservers()
-        
-    }
+    func onPlacesStoreEnd(resul: Int)
     
 }

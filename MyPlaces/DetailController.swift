@@ -14,8 +14,8 @@ class DetailController:
     UIImagePickerControllerDelegate,
     UINavigationControllerDelegate,
     UITextViewDelegate, UITextFieldDelegate,
-    MyLocationManegeable,
-    ManagerPlaceable {
+    ManagerPlacesStoreObserver {
+    
     
     //  *****************************************************************
     //  MARK: - Instance Properties
@@ -30,7 +30,8 @@ class DetailController:
     
     var notificationCenter: NotificationCenter!
     
-    //    var sharedManagerLocation: MyLocationManager = MyLocationManager.shared() #NP
+    let myLocationManager = MyLocationManager.shared()
+    
     
     @IBOutlet weak var constraintHeight: NSLayoutConstraint!
     @IBOutlet weak var viewPicker: UIPickerView!
@@ -44,6 +45,9 @@ class DetailController:
     @IBOutlet weak var btnUpdate: UIButton!
 
     
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
     //  *****************************************************************
     //  MARK: - @IBActions
     //
@@ -54,22 +58,21 @@ class DetailController:
     //
     @IBAction func newOrUpdatePressed(_ sender: UIButton) {
         
-        //        let sharedManagerPlaces = ManagerPlaces.shared() #NP
-        
+        print("1-8000 MyLocationManager newOrUpdatePressed(...)")
+        let managerPlaces = ManagerPlaces.shared()
+
         let name = textName.text!
         let description = textDescription.text!
-        
+
         if place == nil { // NEW
-//            print("<<<< MyLocationManager newOrUpdatePressed(...) 1 sharedManagerLocation")
-//            let sharedManagerLocation = MyLocationManager.shared()
-            
+
             let indexPlacesTypes: Int = viewPicker.selectedRow(inComponent: 0)
-            
+
             var data: Data? = nil
             if imagePicked.image != nil {
                 data = imagePicked.image!.jpegData(compressionQuality: 1.0)
             }
-            
+
             var pl: Place? = nil
             if indexPlacesTypes == 0 {
                 pl = Place(
@@ -84,26 +87,29 @@ class DetailController:
                     discount_tourist: "10€",
                     image: data)
             }
-            
-            print("0-8000MyLocationManager newOrUpdatePressed(...)")
+
             print("- BEFORE sharedManagerLocation.getLocation()")
-            //            pl?.location = sharedManagerLocation.getLocation() #NP
-            pl?.location = getLocation()
-//            sharedManagerPlaces.append(pl!)  #NP
-            append(pl!)
+            pl?.location = myLocationManager.getLocation()
+            managerPlaces.append(pl!)
         }
         else { // UPDATE
             place!.name = name
             place!.description = description
         }
+
         
-        //        sharedManagerPlaces.store() #NP
-        store()
+        managerPlaces.delegate = self
         
-        dismiss(animated: true, completion: nil)
+        print("- BEFORE activityIndicator.startAnimating()")
+        activityIndicator.startAnimating()
         
-        //        sharedManagerPlaces.updateObservers() #NP
-        updateObservers()
+        print("- BEFORE managerPlaces.store()")
+        managerPlaces.store()
+        
+//        dismiss(animated: true, completion: nil)
+//
+//        // sharedManagerPlaces.updateObservers() #NP
+//        updateObservers()
     }
     
     
@@ -124,8 +130,7 @@ class DetailController:
     @IBAction func removePressed(_ sender: Any) {
         
         if place != nil {   // UPDATE
-            // ManagerPlaces.shared().remove(place!) #NP
-            remove(place!)
+            ManagerPlaces.shared().remove(place!)
         }
         
         ManagerPlaces.shared().updateObservers()
@@ -156,6 +161,8 @@ class DetailController:
         viewPicker.delegate = self      // Protocol UIPickerViewDelegate
         viewPicker.dataSource = self    // Protocol UIPickerViewDataSource
         
+        activityIndicator.hidesWhenStopped = true
+        
         softKeyboardControl()
         
         loadVisualComponents()
@@ -178,7 +185,19 @@ class DetailController:
         // Dispose of any resources that can be recreated.
     }
     
-    
+    //  PLA4 - 1.3.5
+    //
+    @objc func endStore() {
+        
+        activityIndicator.stopAnimating()
+        
+        let managerPlaces = ManagerPlaces.shared()
+        
+        dismiss(animated: true, completion: nil)
+        
+        managerPlaces.updateObservers()
+        
+    }
     
     //  *****************************************************************
     //  MARK: - LOAD VISUAL COMPONENTS in the view
@@ -425,5 +444,23 @@ class DetailController:
         
         dismiss(animated: true, completion: nil)
         
+    }
+    
+    
+    
+    //  *****************************************************************
+    //  MARK: - OBSERVER Design Pattern
+    //
+    //
+    //  PLA4 - 1.3.4
+    //
+    /// An instance of FirstViewController subscribes itself to the list of observers
+    //
+    func onPlacesStoreEnd(resul: Int) {
+        // ... performSelector(inBackground: #selector(storeInternal), with: nil)
+        
+        self.performSelector(onMainThread: #selector(endStore),
+                             with: nil,
+                             waitUntilDone: false)
     }
 }

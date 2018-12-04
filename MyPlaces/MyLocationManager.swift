@@ -10,9 +10,9 @@ import Foundation
 import CoreLocation
 
 
-class MyLocationManager: NSObject, CLLocationManagerDelegate, MyLocationManegeable {
-    
-    static let shared = MyLocationManager()
+class MyLocationManager:
+    NSObject,
+    CLLocationManagerDelegate {
     
     private var locationManager: CLLocationManager!
     
@@ -116,66 +116,118 @@ class MyLocationManager: NSObject, CLLocationManagerDelegate, MyLocationManegeab
     //
     //  Unique instance for all App
     //
-    override private init() {
-        super.init()
+//    override private init() {
+//        super.init()
+//
+//        print("0-3000 MyLocationManager init()")
+//
+//        configureLocationServices()
+//
+//        print("- END init())")
+//
+//    }
+//
+//
+//    private func configureLocationServices() {
+//
+//        print("0-3100 MyLocationManager configureLocationServices()")
+//
+//        if CLLocationManager.locationServicesEnabled() {
+//            locationManager = CLLocationManager()
+//
+//            locationManager.delegate = self
+//
+//            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+//
+//            // The minimum distance (measured in meters) a device must move horizontally
+//            // before an update event is generated.
+//            locationManager.distanceFilter = 500
+//
+//            locationManager.allowsBackgroundLocationUpdates = true
+//
+//            let status: CLAuthorizationStatus =
+//                CLLocationManager.authorizationStatus()
+//
+//            print("- status: \(String(describing: status))")
+//            print("- status.rawValue: \(status.rawValue)")
+//            if status == .notDetermined {
+//                print("- status == .notDetermined")
+//                locationManager.requestWhenInUseAuthorization()
+//                print("- AFTER .requestWhenInUseAuthorization()")
+//            }
+//        }
+//    }
+//
+    private static var sharedManagerLocation: MyLocationManager = {
+        print("0-3000 ManagerLocation var sharedManagerLocation")
         
-        print("0-3000 MyLocationManager init()")
+        var singletonManager: MyLocationManager?
         
-        configureLocationServices()
-
-        print("- END init())")
-        
-    }
-    
-    
-    private func configureLocationServices() {
-        
-        print("0-3100 MyLocationManager configureLocationServices()")
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager = CLLocationManager()
-        
-            locationManager.delegate = self
-        
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        
+        print("- singletonManager: \(String(describing: singletonManager))")
+        if singletonManager == nil {
+            
+            singletonManager = MyLocationManager()
+            
+            singletonManager!.locationManager = CLLocationManager()
+            
+            singletonManager!.locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            
+            ////if CLLocationManager.locationServicesEnabled() {
+            print("- CLLocationManager.locationServicesEnabled() - \(CLLocationManager.locationServicesEnabled())")
+            
+            singletonManager!.locationManager.delegate = singletonManager
+            
             // The minimum distance (measured in meters) a device must move horizontally
             // before an update event is generated.
-            locationManager.distanceFilter = 500
-        
-            locationManager.allowsBackgroundLocationUpdates = true
-        
+            singletonManager!.locationManager.distanceFilter = 500
+            
+            //--singletonManager!.clLocationManager.desiredAccuracy = kCLLocationAccuracyBest
+            
+            singletonManager!.locationManager.allowsBackgroundLocationUpdates = true
+            
             let status: CLAuthorizationStatus =
                 CLLocationManager.authorizationStatus()
-        
+            
             print("- status: \(String(describing: status))")
             print("- status.rawValue: \(status.rawValue)")
             if status == .notDetermined {
                 print("- status == .notDetermined")
-                locationManager.requestWhenInUseAuthorization()
+                singletonManager!.locationManager.requestWhenInUseAuthorization()
                 print("- AFTER .requestWhenInUseAuthorization()")
             }
+            else {
+                singletonManager!.startLocation()
+            }
         }
-    }
+        
+        print("- BEFORE return singletonManager)")
+        return singletonManager!
+    }()
     
+    
+    class func shared() -> MyLocationManager {
+    
+        return sharedManagerLocation
+    
+    }
 }
 
 
-///  Singleton to Protocol
+/////  Singleton to Protocol
+////
+//protocol MyLocationManegeable {
 //
-protocol MyLocationManegeable {
-    
-    // Empty in order not to override
-    
-}
-
-
-extension MyLocationManegeable {
-    
-    func getLocation() -> CLLocationCoordinate2D {
-        
-        return MyLocationManager.shared.getLocation()
-        
-    }
-    
-}
+//    // Empty in order not to override
+//
+//}
+//
+//
+//extension MyLocationManegeable {
+//
+//    func getLocation() -> CLLocationCoordinate2D {
+//
+//        return MyLocationManager.shared.getLocation()
+//
+//    }
+//    
+//}
