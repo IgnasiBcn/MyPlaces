@@ -133,7 +133,7 @@ class SecondViewController:
                 pinAnnotationView.rightCalloutAccessoryView =
                     UIButton(type: .detailDisclosure) as UIView // Super class MKAnnotationView
 
-                pinAnnotationView.setSelected(true, animated: true)
+                // pinAnnotationView.setSelected(true, animated: true)
             }
             print("1-4000 - pinAnnotationView: \(pinAnnotationView)")
             return pinAnnotationView

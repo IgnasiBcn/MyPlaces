@@ -17,10 +17,10 @@
 		CEAA755221639C5C0039D783 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEAA755121639C5C0039D783 /* Assets.xcassets */; };
 		CEAA755521639C5C0039D783 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CEAA755321639C5C0039D783 /* LaunchScreen.storyboard */; };
 		CEAA755D2163D7970039D783 /* DetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA755C2163D7970039D783 /* DetailController.swift */; };
-		CEAA75602163D8950039D783 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAA755F2163D8950039D783 /* MapKit.framework */; };
 		CEAA75622163EC120039D783 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA75612163EC120039D783 /* Place.swift */; };
 		CEAA75642163EFBF0039D783 /* PlaceTourist.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA75632163EFBF0039D783 /* PlaceTourist.swift */; };
 		CEAA75662163F44C0039D783 /* ManagerPlaces.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEAA75652163F44C0039D783 /* ManagerPlaces.swift */; };
+		CED788DE21BAA36D005ECCD1 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEAA755F2163D8950039D783 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEAA75602163D8950039D783 /* MapKit.framework in Frameworks */,
+				CED788DE21BAA36D005ECCD1 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

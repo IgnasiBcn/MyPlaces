@@ -241,8 +241,8 @@ class DetailController:
     //
     //  PLA2 - 3.2.4
     //
-    private func softKeyboardControl()
-    {
+    private func softKeyboardControl() {
+        
         //  init(target: Any?, action: Selector?) - class UIGestureRecognizer
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(
             target: self,
@@ -266,6 +266,7 @@ class DetailController:
         
         textName.delegate = self
         textDescription.delegate = self
+        
     }
     
     

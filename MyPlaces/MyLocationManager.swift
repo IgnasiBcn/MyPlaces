@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreLocation
+import UserNotifications
 
 
 class MyLocationManager:
@@ -16,6 +17,7 @@ class MyLocationManager:
     
     private var locationManager: CLLocationManager!
     
+    var firstTime = true
     
 //    static var pos: Int = 0
 //    static var locations:[CLLocationCoordinate2D] = [
@@ -91,10 +93,44 @@ class MyLocationManager:
     }
     
     
+    //  PLA4 - 2.1
+    //
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
         
         print("P-2100 MyLocationManager locationManager(..., didUpdateLocations...)")
+        let location: CLLocation = locations[locations.endIndex-1]
+        print("- location: \(location)")
+        
+        print("- firstTime: \(firstTime)")
+        if firstTime {
+            let content = UNMutableNotificationContent()
+            content.title = "Message title"
+            content.subtitle = "Message subtitle"
+            content.body = "Message body"
+            content.badge = 1
+            
+            let trigger = UNTimeIntervalNotificationTrigger(
+                timeInterval: 10,
+                repeats: false)
+            
+            let requestIdentifier = "demoNotification"
+            
+            let request = UNNotificationRequest(
+                identifier: requestIdentifier,
+                content: content,
+                trigger: trigger)
+            
+            UNUserNotificationCenter.current().add(
+                request,
+                withCompletionHandler: { (error) in
+                    // Handle error
+                })
+            
+            print("- BEFORE firstTime = false")
+            // firstTime = false
+            
+        }
         
     }
     
@@ -116,48 +152,6 @@ class MyLocationManager:
     //
     //  Unique instance for all App
     //
-//    override private init() {
-//        super.init()
-//
-//        print("0-3000 MyLocationManager init()")
-//
-//        configureLocationServices()
-//
-//        print("- END init())")
-//
-//    }
-//
-//
-//    private func configureLocationServices() {
-//
-//        print("0-3100 MyLocationManager configureLocationServices()")
-//
-//        if CLLocationManager.locationServicesEnabled() {
-//            locationManager = CLLocationManager()
-//
-//            locationManager.delegate = self
-//
-//            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-//
-//            // The minimum distance (measured in meters) a device must move horizontally
-//            // before an update event is generated.
-//            locationManager.distanceFilter = 500
-//
-//            locationManager.allowsBackgroundLocationUpdates = true
-//
-//            let status: CLAuthorizationStatus =
-//                CLLocationManager.authorizationStatus()
-//
-//            print("- status: \(String(describing: status))")
-//            print("- status.rawValue: \(status.rawValue)")
-//            if status == .notDetermined {
-//                print("- status == .notDetermined")
-//                locationManager.requestWhenInUseAuthorization()
-//                print("- AFTER .requestWhenInUseAuthorization()")
-//            }
-//        }
-//    }
-//
     private static var sharedManagerLocation: MyLocationManager = {
         print("0-3000 ManagerLocation var sharedManagerLocation")
         
@@ -200,6 +194,15 @@ class MyLocationManager:
             }
         }
         
+        
+        let userNotificationCenter = UNUserNotificationCenter.current()
+        
+        userNotificationCenter.requestAuthorization(
+        options: [.alert, .sound, .badge]) {
+            (grant, error) in
+            // enable or disable features based on authorization
+        }
+        
         print("- BEFORE return singletonManager)")
         return singletonManager!
     }()
@@ -210,24 +213,5 @@ class MyLocationManager:
         return sharedManagerLocation
     
     }
+    
 }
-
-
-/////  Singleton to Protocol
-////
-//protocol MyLocationManegeable {
-//
-//    // Empty in order not to override
-//
-//}
-//
-//
-//extension MyLocationManegeable {
-//
-//    func getLocation() -> CLLocationCoordinate2D {
-//
-//        return MyLocationManager.shared.getLocation()
-//
-//    }
-//    
-//}

@@ -26,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        let place2 = Place(name: "Value name place2", description: "Value description place2", image_in: nil)
 //        manager.append(place1)
 //        manager.append(place2)
+            
+            print("AppDelegate application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?)")
 
         return true
     }
